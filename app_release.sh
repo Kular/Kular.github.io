@@ -37,7 +37,7 @@ echo "repo:" $REPO
     --repo $REPO \
     --tag $VERSION-$DATE \
     --name $DATE \
-    --description auto build of $DATE \
+    --description "auto build of $DATE" \
     --pre-release
 
 # upload the binary
