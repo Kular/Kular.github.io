@@ -18,9 +18,6 @@ do
   esac
 done
 
-git reset --hard
-git clean -df
-
 TAG=$VERSION-$DATE
 
 cp ./manifest.plist ./Archives/manifest_$PREV_DATE.plist
@@ -37,7 +34,7 @@ sh ./update_index.sh \
 git status
 git add .
 COMMIT_MSG="commit for $TAG"
-git commit -m $COMMIT_MSG
+git commit -m "$COMMIT_MSG"
 git push
 echo "[Done] push" $COMMIT_MSG
 
