@@ -18,16 +18,32 @@ do
   esac
 done
 
+git reset --hard
+git clean -df
+
+TAG=$VERSION-$DATE
+
 cp ./manifest.plist ./Archives/manifest_$PREV_DATE.plist
 echo "[Done] Archive manifest_"$PREV_DATE
 
 gsed -i "s/$PREV_DATE/$DATE/g" ./manifest.plist
 echo "[Done] Update manifest"
 
+echo "Now committing:" $TAG
+sh ./update_index.sh \
+    -b $PREV_DATE \
+    -c $DATE
+
+git status
+git add .
+COMMIT_MSG="commit for $TAG"
+git commit -m $COMMIT_MSG
+git push
+echo "[Done] push" $COMMIT_MSG
+
 ACCESS_TOKEN=`cat ./secret/access_token`
 echo $ACCESS_TOKEN
 
-TAG=$VERSION-$DATE
 git tag $TAG && git push --tags
 echo "[Done] push tag:" $TAG
 
